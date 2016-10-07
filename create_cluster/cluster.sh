@@ -50,7 +50,7 @@ esac
 ######################
 if [ $PXE_COUNT > 0 ]
   check=$(VBoxManage list natnetworks | grep vaq)
-  if [ $check != "NetworkName: vaq" ]; then
+  if [ -z "$check" ]; then
     VBoxManage natnetwork add --netname vaq --network "192.168.15.0/24" --enable --dhcp on
   fi
   then
