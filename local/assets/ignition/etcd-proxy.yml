@@ -18,17 +18,6 @@ systemd:
             [Service]
             Environment="FLEET_METADATA={{.group.fleet_metadata}}"
 
-networkd:
-  units:
-    - name: 10-static.network
-      contents: |
-        [Match]
-        MACAddress={{.host.mac}}
-        [Network]
-        Gateway={{.host.subnet.gateway}}
-        DNS={{.host.subnet.dns}}
-        Address={{.host.ip}}
-
 {{ if index .env "ssh_authorized_keys" }}
 
 passwd:
