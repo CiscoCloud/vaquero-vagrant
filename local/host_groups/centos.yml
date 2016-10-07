@@ -1,0 +1,9 @@
+---
+id: centos
+name: centosInstall
+
+operating_system: centos7-stable
+
+unattended:
+  type: kickstart
+  use: centos.yml

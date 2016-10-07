@@ -1,0 +1,12 @@
+---
+id: coreos-ignition-proxy
+name: Etcd Proxies
+
+operating_system: coreos-1053.2.0-stable
+
+unattended:
+  type: ignition
+  use: etcd-proxy.yml
+
+metadata:
+  fleet_metadata: role=etcd-proxy

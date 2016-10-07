@@ -1,0 +1,71 @@
+---
+host_group: coreos-cloudconfig
+subnet: vagrant1
+hosts:
+- name: etcd1
+  selectors:
+    mac: 00:00:00:00:00:21
+  metadata:
+    mstr: etcd-c1
+    role: kube-master
+    ip: 10.10.10.21
+- name: etcd2
+  selectors:
+    mac: 00:00:00:00:00:22
+  metadata:
+    mstr: etcd-c2
+    role: kube-master
+    ip: 10.10.10.22
+- name: etcd3
+  selectors:
+    mac: 00:00:00:00:00:23
+  metadata:
+    mstr: etcd-c3
+    role: kube-master
+    ip: 10.10.10.23
+- name: node1
+  selectors:
+    mac: 00:00:00:00:00:24
+  metadata:
+    role: kube-node
+    ip: 10.10.10.24
+---
+host_group: coreos-ignition-cluster
+subnet: vagrant1
+hosts:
+- name: etcd-i1
+  selectors:
+    mac: 00:00:00:00:00:31
+  metadata:
+    name: etcd-i1
+    ip: 10.10.10.31
+- name: etcd-i2
+  selectors:
+    mac: 00:00:00:00:00:32
+  metadata:
+    name: etcd-i2
+    ip: 10.10.10.32
+- name: etcd-i3
+  selectors:
+    mac: 00:00:00:00:00:33
+  metadata:
+    name: etcd-i3
+    ip: 10.10.10.33
+---
+host_group: coreos-ignition-proxy
+subnet: vagrant1
+hosts:
+- name: proxy1
+  selectors:
+    mac: 00:00:00:00:00:34
+  metadata:
+    ip: 10.10.10.34
+---
+host_group: centos
+subnet: vagrant1
+hosts:
+- name: centos1
+  selectors:
+    mac: 00:00:00:00:00:41
+  metadata:
+    ip: 10.10.10.41

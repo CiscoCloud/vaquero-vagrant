@@ -1,0 +1,41 @@
+---
+systemd:
+  units:
+    - name: etcd2.service
+      enable: true
+      dropins:
+        - name: 40-etcd-cluster.conf
+          contents: |
+            [Service]
+            Environment="ETCD_PROXY=on"
+            Environment="ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379"
+            Environment="ETCD_INITIAL_CLUSTER={{ range $i, $node := .env.etcd_ignition_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}"
+    - name: fleet.service
+      enable: true
+      dropins:
+        - name: fleet-metadata.conf
+          contents: |
+            [Service]
+            Environment="FLEET_METADATA={{.group.fleet_metadata}}"
+
+networkd:
+  units:
+    - name: 10-static.network
+      contents: |
+        [Match]
+        MACAddress={{.host.mac}}
+        [Network]
+        Gateway={{.host.subnet.gateway}}
+        DNS={{.host.subnet.dns}}
+        Address={{.host.ip}}
+
+{{ if index .env "ssh_authorized_keys" }}
+
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        {{ range $element := .env.ssh_authorized_keys }}
+        - {{$element}}
+        {{end}}
+{{end}}

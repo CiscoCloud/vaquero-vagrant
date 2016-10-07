@@ -1,0 +1,12 @@
+---
+id: coreos-ignition-cluster
+name: Etcd Cluster
+
+operating_system: coreos-1053.2.0-stable
+
+unattended:
+  type: ignition
+  use: etcd-cluster.yml
+
+metadata:
+  fleet_role: etcd

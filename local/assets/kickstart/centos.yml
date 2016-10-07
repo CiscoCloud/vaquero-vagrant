@@ -1,0 +1,59 @@
+# Kickstart file for a basic install.
+install
+
+# Specifies the language
+lang en_US.UTF-8
+
+# Specifies the keyboard layout
+keyboard us
+
+# Skip Red Hat key input (disabled for Centos)
+# key --skip
+
+# Forces the text installer to be used (saves on time because a GUI doesn’t need to be loaded)
+text
+
+# Skips the display of any GUI during install
+skipx
+
+# Used with an HTTP install to specify where the install files are located
+url --url http://128.200.84.11/centos/7/os/x86_64/
+
+rootpw "password"
+
+# Enable the firewall and open port 22 for SSH remote administration
+firewall --enabled --port=22:tcp
+
+# Setup security and SELinux levels
+authconfig --enableshadow --enablemd5
+selinux --permissive
+
+# Set the timezone
+timezone --utc America/New_York
+
+# Wipe all partitions and build them with the info below
+clearpart --all --drives=sda --initlabel
+
+# Create the bootloader in the MBR with drive sda being the drive to install it on
+bootloader --location=mbr --driveorder=sda
+
+# Create a 100MB /boot partition
+part /boot --fstype ext3 --size=100
+
+# Create a 5GB / partition
+part / --fstype ext3 --size=5000
+
+# Create a 2GB swap
+part swap --size=2000
+
+# Use the rest of the free space on disk to create the /home partition
+part /home --fstype ext3 --size=100 --grow
+
+# Install the Base and Core software packages, plus OpenSSH server & client
+# This is the bare minimum for a system to run (with remote access via SSH)
+%packages
+@ Core
+@ Base
+openssh-clients
+openssh-server
+%end
