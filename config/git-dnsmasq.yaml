@@ -19,7 +19,7 @@ Gitter:
 GitHook:
 - ID: vaquero-vagrant
   Token: <GIT_TOKEN> 
-  URL: https://github.com/gem-test/vaquero
+  URL: https://github.com/CiscoCloud/vaquero-examples
   Secret: supersecretcode
 SoT:
 - Git:
