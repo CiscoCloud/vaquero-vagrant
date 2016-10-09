@@ -1,4 +1,5 @@
 VERSION=2.76
+cd /
 wget http://www.thekelleys.org.uk/dnsmasq/dnsmasq-$VERSION.tar.gz
 tar -zxvf dnsmasq-$VERSION.tar.gz
 
