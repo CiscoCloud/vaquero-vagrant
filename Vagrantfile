@@ -77,6 +77,7 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
         vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
+        vaquero.vm.provision :shell, path: "provision_scripts/general.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
