@@ -27,7 +27,7 @@ done
 ######################
 if [ $PXE_COUNT ]
   then
-    for (( i=1; i <= $PXE_COUNT; i++ ))
+    for (( i=0; i <= $PXE_COUNT; i++ ))
       do
         vmName="boot-$i"
 
