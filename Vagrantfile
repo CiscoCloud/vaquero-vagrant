@@ -1,5 +1,6 @@
 $base = "geerlingguy/centos7"
 $vaquero = "gemini/vaquero"
+$ubuntu = "ubuntu/trusty64"
 
 def medium(config)
     config.vm.provider "virtualbox" do |v|
@@ -66,6 +67,37 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision "file", source: "provision_files/dnsmasq-netboot.conf", destination: "/tmp/dnsmasq.conf"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
+    end
+
+    config.vm.define "vaquero_relay", autostart: false do |vaquero|
+        medium(config)
+        vaquero.vm.network "private_network", ip: "10.10.11.9", virtualbox__intnet: "relay"
+        vaquero.vm.hostname = "vaquero"
+        vaquero.vm.box = $vaquero
+        vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
+        vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
+        vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
+        vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
+        vaquero.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.8 dev enp0s8"
+        vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+    end
+
+    config.vm.define "relay", autostart: false do |relay|
+      medium(config)
+      relay.vm.network "private_network", ip: "10.10.10.8", virtualbox__intnet: "vaquero"
+      relay.vm.network "private_network", ip: "10.10.11.8", virtualbox__intnet: "relay"
+      relay.vm.provision :shell, inline: "sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf && sysctl -p /etc/sysctl.conf
+"
+      relay.vm.provision :shell, path: "provision_scripts/dhcp-helper.sh"
+      relay.vm.hostname = "relay"
+      relay.vm.box = $ubuntu
+    end
+
+    config.vm.define "relay_test", autostart: false do |relay|
+      medium(config)
+      relay.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
+      relay.vm.provision :shell, inline: "sudo ip route add 10.10.11.0/24 via 10.10.10.8 dev eth1"
+      relay.vm.box = $ubuntu
     end
 
     config.vm.define "build_vaquero", autostart: false do |vaquero|
