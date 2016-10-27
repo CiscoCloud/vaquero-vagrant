@@ -35,7 +35,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-
     end
 
     config.vm.define "vaquero_proxy", autostart: false do |vaquero|
@@ -49,7 +48,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-
     end
 
     config.vm.define "dnsmasq", autostart: false do |dnsmasq|
@@ -87,7 +85,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.8 dev enp0s8"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-
     end
 
     config.vm.define "relay", autostart: false do |relay|
@@ -111,7 +108,6 @@ Vagrant.configure(2) do |config|
     config.vm.define "build_vaquero", autostart: false do |vaquero|
         medium(config)
         vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
-        vaquero.vm.hostname = "build-vaquero"
         vaquero.vm.box = $base
         vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
         vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
@@ -126,5 +122,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/undionly.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/drone.sh"
     end
 end
