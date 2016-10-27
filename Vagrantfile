@@ -117,7 +117,6 @@ Vagrant.configure(2) do |config|
     config.vm.define "build_vaquero", autostart: false do |vaquero|
         medium(config)
         vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
-        vaquero.vm.hostname = "build-vaquero"
         vaquero.vm.box = $base
         vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
         vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
