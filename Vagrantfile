@@ -1,6 +1,7 @@
 $base = "geerlingguy/centos7"
-$vaquero = "gemini/vaquero"
+$vaquero = "browniegirl"
 $ubuntu = "ubuntu/trusty64"
+
 
 def medium(config)
     config.vm.provider "virtualbox" do |v|
@@ -33,6 +34,8 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+
     end
 
     config.vm.define "vaquero_proxy", autostart: false do |vaquero|
@@ -45,6 +48,8 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+
     end
 
     config.vm.define "dnsmasq", autostart: false do |dnsmasq|
@@ -66,6 +71,7 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision "file", source: "provision_files/dnsmasq-netboot.conf", destination: "/tmp/dnsmasq.conf"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
     end
 
@@ -80,6 +86,8 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.8 dev enp0s8"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+
     end
 
     config.vm.define "relay", autostart: false do |relay|
@@ -116,5 +124,7 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/images.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/undionly.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
     end
 end
