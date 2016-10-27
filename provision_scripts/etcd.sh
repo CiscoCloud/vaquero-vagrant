@@ -1,4 +1,6 @@
 #!/bin/bash
+BASH_PROFILE=/home/vagrant/.bash_profile
+
 echo "Installing etcd..."
 sudo yum -y install etcd
 echo "Etcd installed. Configuring..."
