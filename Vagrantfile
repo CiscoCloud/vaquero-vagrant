@@ -85,7 +85,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.8 dev enp0s8"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-
     end
 
     config.vm.define "relay", autostart: false do |relay|
