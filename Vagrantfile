@@ -128,6 +128,5 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/drone.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/drone-provision.sh"
     end
 end
