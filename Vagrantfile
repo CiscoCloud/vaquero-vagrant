@@ -1,5 +1,5 @@
 $base = "geerlingguy/centos7"
-$vaquero = "browniegirl"
+$vaquero = "gemini/vaquero"
 $ubuntu = "ubuntu/trusty64"
 
 
