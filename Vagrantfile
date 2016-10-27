@@ -35,7 +35,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
     end
 
     config.vm.define "vaquero_proxy", autostart: false do |vaquero|
