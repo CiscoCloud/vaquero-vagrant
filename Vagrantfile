@@ -26,27 +26,19 @@ end
 Vagrant.configure(2) do |config|
     config.vm.define "vaquero_server", autostart: true do |vaquero|
         medium(config)
-        vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
+        vaquero.vm.network "private_network", ip: "10.10.10.5", virtualbox__intnet: "vaquero"
         vaquero.vm.hostname = "vaquero"
         vaquero.vm.box = $vaquero
-        vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
-        vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
-        vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
-        vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/govendor.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
     end
 
-    config.vm.define "vaquero_proxy", autostart: false do |vaquero|
+    config.vm.define "vaquero_agent", autostart: false do |vaquero|
         medium(config)
-        vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
+        vaquero.vm.network "private_network", ip: "10.10.10.6", virtualbox__intnet: "vaquero"
         vaquero.vm.hostname = "vaquero"
         vaquero.vm.box = $vaquero
-        vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
-        vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
-        vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
-        vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
         vaquero.vm.provision :shell, path: "provision_scripts/govendor.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
@@ -58,22 +50,6 @@ Vagrant.configure(2) do |config|
         dnsmasq.vm.box = $vaquero
         dnsmasq.vm.provision "file", source: "provision_files/dnsmasq-iponly.conf", destination: "/tmp/dnsmasq.conf"
         dnsmasq.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
-    end
-
-    config.vm.define "vaquero_other", autostart: false do |vaquero|
-        medium(config)
-        vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
-        vaquero.vm.hostname = "vaquero"
-        vaquero.vm.box = $vaquero
-        vaquero.vm.network "forwarded_port", guest: 9090, host: 9090
-        vaquero.vm.network "forwarded_port", guest: 8080, host: 8080
-        vaquero.vm.network "forwarded_port", guest: 24601, host: 24601
-        vaquero.vm.network "forwarded_port", guest: 24602, host: 24602
-        vaquero.vm.provision "file", source: "provision_files/dnsmasq-netboot.conf", destination: "/tmp/dnsmasq.conf"
-        vaquero.vm.provision :shell, path: "provision_scripts/govendor.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
     end
 
     config.vm.define "vaquero_relay", autostart: false do |vaquero|
