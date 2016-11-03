@@ -5,8 +5,8 @@ $ubuntu = "ubuntu/trusty64"
 
 def medium(config)
     config.vm.provider "virtualbox" do |v|
-      v.memory = 512
-      v.cpus = 1
+      v.memory = 1024
+      v.cpus = 2
     end
 end
 
@@ -123,5 +123,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/drone.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/govendor.sh"
     end
 end
