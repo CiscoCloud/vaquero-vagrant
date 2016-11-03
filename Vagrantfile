@@ -102,13 +102,6 @@ Vagrant.configure(2) do |config|
       relay.vm.box = $ubuntu
     end
 
-    config.vm.define "relay_test", autostart: false do |relay|
-      medium(config)
-      relay.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
-      relay.vm.provision :shell, inline: "sudo ip route add 10.10.11.0/24 via 10.10.10.8 dev eth1"
-      relay.vm.box = $ubuntu
-    end
-
     config.vm.define "build_vaquero", autostart: false do |vaquero|
         large(config)
         vaquero.vm.network "private_network", ip: "10.10.10.9", virtualbox__intnet: "vaquero"
