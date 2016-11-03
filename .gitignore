@@ -27,3 +27,7 @@ _cgo_export.*
 
 # DS_Store
 *.DS_Store
+
+# custom
+go/
+0
