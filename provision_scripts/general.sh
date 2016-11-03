@@ -11,7 +11,3 @@ rm go1.6.3.linux-amd64.tar.gz
 echo "export PATH=$PATH:/go/bin" >> $BASH_PROFILE
 echo "export GOROOT=/go" >> $BASH_PROFILE
 echo "export GOPATH=/vagrant/go" >> $BASH_PROFILE
-
-
-#govendor dependency for vaquero
-go get -u github.com/kardianos/govendor
