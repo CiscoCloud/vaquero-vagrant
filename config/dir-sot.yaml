@@ -3,18 +3,18 @@ ServerApi:
   Address: 10.0.2.15
   Port: 24601
 AgentApi:
-  InsecureAddr: 10.10.10.9
+  InsecureAddr: 10.10.10.5
   InsecurePort: 24602
 AssetServer:
-  Addr: 10.10.10.9
+  Addr: 10.10.10.5
   Port: 8080
   BaseDir: "/var/vaquero/files"
   Scheme: http
 SavePath: "/var/vaquero/save"
-DHCPMode: proxy
-DHCPCIDR: "10.10.10.9/24"
+DHCPMode: server
+DHCPCIDR: "10.10.10.5/24"
 LocalDir:
-  PollInterval: 10
+  PollInterval: 1
 SoT:
 - Local:
     ID: vaquero-local

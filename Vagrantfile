@@ -5,6 +5,7 @@ $ubuntu = "ubuntu/trusty64"
 $vs_num = (ENV['VS_NUM'] || 1).to_i
 $va_num = (ENV['VA_NUM'] || 0).to_i
 $dev = (ENV['V_DEV'] || 0).to_i
+$relay = (ENV['V_RELAY'] || 0).to_i
 $max = 3
 
 Vagrant.configure(2) do |config|
@@ -33,6 +34,10 @@ Vagrant.configure(2) do |config|
     end
 
     def setSize(config,name)
+        if $relay != 0
+          name = "relay-" + name
+        end
+
         if $dev == 0
             medium(config, name)
         else
@@ -46,13 +51,24 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    def setNetwork(box, index, ipStart)
+        if $relay == 0
+            ipString = "10.10.10.#{index+ipStart}"
+            box.vm.network "private_network", ip: ipString, virtualbox__intnet: "vaquero"
+        else
+            ipString = "10.10.11.#{index+ipStart}"
+            box.vm.network "private_network", ip: ipString, virtualbox__intnet: "relay"
+            box.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.3 dev enp0s8"
+        end
+    end
+
     $vs_num.times do |i|
         name = "vs-#{i+1}"
-        ipString = "10.10.10.#{i+5}"
+        ipStart = 5
         config.vm.define name do |server|
             server.vm.box = $vaquero
             setSize(config, name)
-            server.vm.network "private_network", ip: ipString, virtualbox__intnet: "vaquero"
+            setNetwork(server, i, ipStart)
             server.vm.hostname = name
             server.vm.provision :shell, path: "provision_scripts/govendor.sh"
             server.vm.provision :shell, path: "provision_scripts/docker-start.sh"
@@ -62,14 +78,27 @@ Vagrant.configure(2) do |config|
 
     $va_num.times do |i|
         name = "va-#{i+1}"
-        ipString = "10.10.10.#{i+8}"
+        ipStart = 8
         config.vm.define name do |agent|
             agent.vm.box = $vaquero
             setSize(config, name)
-            agent.vm.network "private_network", ip: ipString, virtualbox__intnet: "vaquero"
+            setNetwork(agent, i, ipStart)
             agent.vm.hostname = name
             agent.vm.provision :shell, path: "provision_scripts/govendor.sh"
             agent.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+        end
+    end
+
+    $relay.times do |i|
+      i = 0
+        config.vm.define "gateway" do |relay|
+          medium(config, "gateway")
+          relay.vm.network "private_network", ip: "10.10.10.3", virtualbox__intnet: "vaquero"
+          relay.vm.network "private_network", ip: "10.10.11.3", virtualbox__intnet: "relay"
+          relay.vm.provision :shell, inline: "sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf && sysctl -p /etc/sysctl.conf"
+          relay.vm.provision :shell, path: "provision_scripts/dhcp-helper.sh"
+          relay.vm.hostname = "gateway"
+          relay.vm.box = $ubuntu
         end
     end
 
@@ -79,27 +108,6 @@ Vagrant.configure(2) do |config|
         dnsmasq.vm.box = $vaquero
         dnsmasq.vm.provision "file", source: "provision_files/dnsmasq-iponly.conf", destination: "/tmp/dnsmasq.conf"
         dnsmasq.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
-    end
-
-    config.vm.define "vaquero_relay", autostart: false do |vaquero|
-        setSize(config, "vaquero_relay")
-        vaquero.vm.network "private_network", ip: "10.10.11.5", virtualbox__intnet: "relay"
-        vaquero.vm.hostname = "vr"
-        vaquero.vm.box = $vaquero
-        vaquero.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.3 dev enp0s8"
-        vaquero.vm.provision :shell, path: "provision_scripts/govendor.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-    end
-
-    config.vm.define "helper", autostart: false do |relay|
-        medium(config, "helper")
-        relay.vm.network "private_network", ip: "10.10.10.3", virtualbox__intnet: "vaquero"
-        relay.vm.network "private_network", ip: "10.10.11.3", virtualbox__intnet: "relay"
-        relay.vm.provision :shell, inline: "sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf && sysctl -p /etc/sysctl.conf"
-        relay.vm.provision :shell, path: "provision_scripts/dhcp-helper.sh"
-        relay.vm.hostname = "helper"
-        relay.vm.box = $ubuntu
     end
 
     config.vm.define "build_vaquero", autostart: false do |vaquero|
