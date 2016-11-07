@@ -74,6 +74,7 @@ Vagrant.configure(2) do |config|
             server.vm.provision :shell, path: "provision_scripts/govendor.sh"
             server.vm.provision :shell, path: "provision_scripts/docker-start.sh"
             server.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+            server.vm.provision :shell, path: "provision_scripts/net-start.sh"
         end
     end
 
@@ -87,6 +88,7 @@ Vagrant.configure(2) do |config|
             agent.vm.hostname = name
             agent.vm.provision :shell, path: "provision_scripts/govendor.sh"
             agent.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+            agent.vm.provision :shell, path: "provision_scripts/net-start.sh"
         end
     end
 
@@ -109,11 +111,14 @@ Vagrant.configure(2) do |config|
         dnsmasq.vm.box = $vaquero
         dnsmasq.vm.provision "file", source: "provision_files/dnsmasq-iponly.conf", destination: "/tmp/dnsmasq.conf"
         dnsmasq.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
+        server.vm.provision :shell, path: "provision_scripts/net-start.sh"
     end
 
     config.vm.define "build_vaquero", autostart: false do |vaquero|
         large(config, "build_vaquero")
         vaquero.vm.box = $base
+        vaquero.vm.box_version = "1.1.3"
+        vaquero.ssh.insert_key = false
         vaquero.vm.provision :shell, path: "provision_scripts/general.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
