@@ -111,7 +111,7 @@ Vagrant.configure(2) do |config|
         dnsmasq.vm.box = $vaquero
         dnsmasq.vm.provision "file", source: "provision_files/dnsmasq-iponly.conf", destination: "/tmp/dnsmasq.conf"
         dnsmasq.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
-        server.vm.provision :shell, path: "provision_scripts/net-start.sh"
+        dnsmasq.vm.provision :shell, path: "provision_scripts/net-start.sh"
     end
 
     config.vm.define "build_vaquero", autostart: false do |vaquero|
