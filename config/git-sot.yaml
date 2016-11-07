@@ -12,7 +12,6 @@ AssetServer:
   Scheme: http
 SavePath: "/var/vaquero/save"
 DHCPMode: server
-DHCPCIDR: "10.10.10.5/24"
 Gitter:
   Endpoint: "/postreceive"
   Timeout: 2
@@ -20,7 +19,7 @@ Gitter:
   Port: 9090
 GitHook:
 - ID: vaquero-vagrant
-  Token: 970328a2f23fb64ddd03293f13dafda9647a0955
+  Token: <GIT_TOKEN>
   URL: https://github.com/CiscoCloud/vaquero-examples
   Secret: supersecretcode
 SoT:
