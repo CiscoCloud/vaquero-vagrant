@@ -9,11 +9,11 @@ $relay = (ENV['V_RELAY'] || 0).to_i
 $max = 3
 
 Vagrant.configure(2) do |config|
-    if $va_num > 3
+    if $va_num > $max
         abort("VA_NUM=#{$va_num}. It cannot be greater than #{$max}")
     end
 
-    if $vs_num > 3
+    if $vs_num > $max
         abort("VS_NUM=#{$vs_num}. It cannot be greater than #{$max}")
     end
 
