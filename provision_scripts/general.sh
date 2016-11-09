@@ -10,4 +10,4 @@ rm go1.6.3.linux-amd64.tar.gz
 
 echo "export PATH=$PATH:/go/bin" >> $BASH_PROFILE
 echo "export GOROOT=/go" >> $BASH_PROFILE
-echo "export GOPATH=/vagrant/go" >> $BASH_PROFILE
+echo "export GOPATH=/home/vagrant/go" >> $BASH_PROFILE

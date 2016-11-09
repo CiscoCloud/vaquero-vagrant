@@ -42,17 +42,28 @@ def nat(config)
     end
 end
 
-def setNetwork(box, index, ipStart)
+def setNetwork(box, ipString)
     if $relay == 0
-        ipString = "10.10.10.#{index+ipStart}"
         box.vm.network "private_network", ip: ipString, virtualbox__intnet: "vaquero"
     else
-        ipString = "10.10.11.#{index+ipStart}"
         box.vm.network "private_network", ip: ipString, virtualbox__intnet: "relay"
         box.vm.provision :shell, inline: "sudo ip route add 10.10.10.0/24 via 10.10.11.3 dev enp0s8"
     end
 end
 
+def getIP(index,ipStart)
+  if $relay == 0
+    ipString = "10.10.10.#{index+ipStart}"
+  else
+    ipString = "10.10.11.#{index+ipStart}"
+  end
+end
+
+def importDevPath(config)
+  if $dev != 0
+    config.vm.synced_folder ENV['GOPATH'], "/home/vagrant/go"
+  end
+end
 
 Vagrant.configure(2) do |config|
     if $va_num > $max
@@ -63,28 +74,40 @@ Vagrant.configure(2) do |config|
         abort("VS_NUM=#{$vs_num}. It cannot be greater than #{$max}")
     end
 
+    cluster=""
     $vs_num.times do |i|
         name = "vs-#{i+1}"
         ipStart = 5
+        ipString = getIP(i, ipStart)
+        cluster << sprintf("%s=http://%s:%s",name,ipString,"2380")
+        if i < $vs_num - 1
+          cluster << ","
+        end
         config.vm.define name do |server|
             server.vm.box = $vaquero
             setSize(config, name)
-            setNetwork(server, i, ipStart)
+            setNetwork(server, ipString)
+            importDevPath(server)
             server.vm.hostname = name
+            server.vm.provision :shell, path: "provision_scripts/net-start.sh"
+            server.vm.provision :shell, path: "provision_scripts/etcd-config.sh", args: "#{name} #{ipString} #{cluster}", privileged: false
+            server.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
             server.vm.provision :shell, path: "provision_scripts/govendor.sh"
             server.vm.provision :shell, path: "provision_scripts/docker-start.sh"
-            server.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-            server.vm.provision :shell, path: "provision_scripts/net-start.sh"
         end
     end
+
+
 
     $va_num.times do |i|
         name = "va-#{i+1}"
         ipStart = 8
+        ipString = getIP(i, ipStart)
         config.vm.define name do |agent|
             agent.vm.box = $vaquero
             setSize(config, name)
-            setNetwork(agent, i, ipStart)
+            setNetwork(agent, ipString)
+            importDevPath(agent)
             agent.vm.hostname = name
             agent.vm.provision :shell, path: "provision_scripts/govendor.sh"
             agent.vm.provision :shell, path: "provision_scripts/docker-start.sh"
@@ -126,7 +149,6 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/images.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/drone.sh"
     end
 end
