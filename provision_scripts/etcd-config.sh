@@ -3,9 +3,6 @@
 #Name, Current IP, cluster-string
 ETCD_CONF=/home/vagrant/.etcd.conf
 
-
-echo "Etcd installed. Configuring..."
-
 echo "ETCD_NAME=$1" >> $ETCD_CONF
 echo "ETCD_DATA_DIR=/var/lib/etcd" >> $ETCD_CONF
 echo "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379" >> $ETCD_CONF
