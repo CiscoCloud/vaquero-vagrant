@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #Name, Current IP, cluster-string
-touch /home/vagrant/.etcd.conf
 ETCD_CONF=/home/vagrant/.etcd.conf
 
 
