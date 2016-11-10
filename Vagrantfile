@@ -97,8 +97,6 @@ Vagrant.configure(2) do |config|
         end
     end
 
-
-
     $va_num.times do |i|
         name = "va-#{i+1}"
         ipStart = 8
