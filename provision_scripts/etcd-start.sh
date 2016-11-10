@@ -1,1 +1,2 @@
-sudo systemctl start etcd
+#!/bin/bash
+sudo systemctl start etcd &
