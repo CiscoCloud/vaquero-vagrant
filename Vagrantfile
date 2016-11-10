@@ -60,7 +60,8 @@ def getIP(index,ipStart)
 end
 
 def importDevPath(config)
-  if $dev != 0
+  config.vm.provision "file", source: "~/.gitconfig", destination: "/home/vagrant/.gitconfig"
+  if $dev != 0 && ENV['GOPATH'] != ""
     config.vm.synced_folder ENV['GOPATH'], "/home/vagrant/go"
   end
 end
