@@ -1,9 +1,9 @@
 ---
 AgentApi:
-  InsecureAddr: 10.10.10.5
+  InsecureAddr: 10.10.10.8
   InsecurePort: 24602
 AssetServer:
-  Addr: 10.10.10.5
+  Addr: 10.10.10.8
   Port: 8080
   BaseDir: "/var/vaquero/files"
   Scheme: http
