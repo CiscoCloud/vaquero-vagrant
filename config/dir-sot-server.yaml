@@ -1,0 +1,16 @@
+---
+ServerApi:
+  Address: 10.0.2.15
+  Port: 24601
+SavePath: "/var/vaquero/save"
+DHCPMode: server
+LocalDir:
+  PollInterval: 1
+SoT:
+- Local:
+    ID: vaquero-local
+    Root: /vagrant/local
+Log:
+  Level: debug
+  Location: stdout
+  Type: text

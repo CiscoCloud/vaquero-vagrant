@@ -1,0 +1,18 @@
+---
+AgentApi:
+  InsecureAddr: 10.10.10.8
+  InsecurePort: 24602
+AssetServer:
+  Addr: 10.10.10.8
+  Port: 8080
+  BaseDir: "/var/vaquero/files"
+  Scheme: http
+SavePath: "/var/vaquero/save"
+SoT:
+- Local:
+    ID: vaquero-local
+    Root: /vagrant/local
+Log:
+  Level: debug
+  Location: stdout
+  Type: text
