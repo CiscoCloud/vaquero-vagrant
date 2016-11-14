@@ -4,10 +4,10 @@ ServerApi:
   Port: 24601
 AgentApi:
   InsecureAddr: 10.10.10.5
-  InsecurePort: 24602
+  InsecurePort: 24604
 AssetServer:
   Addr: 10.10.10.5
-  Port: 8080
+  Port: 24602
   BaseDir: "/var/vaquero/files"
   Scheme: http
 SavePath: "/var/vaquero/save"
@@ -16,7 +16,7 @@ Gitter:
   Endpoint: "/postreceive"
   Timeout: 2
   Addr: 10.0.2.15
-  Port: 9090
+  Port: 24603
 GitHook:
 - ID: vaquero-vagrant
   Token: <GIT_TOKEN>
