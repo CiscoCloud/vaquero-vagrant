@@ -1,0 +1,26 @@
+---
+networkd:
+  units:
+    - name: 10-static.network
+      contents: |
+        [Match]
+        MACAddress={{.interface.mac}}
+        [Network]
+        Gateway={{.interface.subnet.gateway}}
+        DNS={{ index .interface.subnet.dns 0 }}
+        Address={{ .interface.ipv4 }}
+
+systemd:
+  units:
+    {{- template "etcd2" .}}
+
+
+{{ if index .env "ssh_authorized_keys" }}
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        {{ range $element := .env.ssh_authorized_keys }}
+        - {{$element}}
+        {{end}}
+{{end}}

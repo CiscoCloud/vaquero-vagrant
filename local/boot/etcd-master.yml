@@ -1,0 +1,12 @@
+---
+id: etcd-master
+name: Etcd Master
+
+operating_system: coreos-1053.2.0-stable
+
+unattended:
+  type: ignition
+  use: etcd.yml
+
+metadata:
+  fleet_role: etcd

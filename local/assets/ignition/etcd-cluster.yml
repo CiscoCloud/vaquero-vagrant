@@ -11,7 +11,7 @@ systemd:
             Environment="ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{.host.ip}}:2380"
             Environment="ETCD_LISTEN_CLIENT_URLS=http://{{.host.ip}}:2379,http://127.0.0.1:2379"
             Environment="ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380"
-            Environment="ETCD_INITIAL_CLUSTER={{ range $i, $node := .env.etcd_ignition_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}"
+            Environment="ETCD_INITIAL_CLUSTER={{ range $i, $node := .env.metadata.etcd_ignition_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}"
             Environment="ETCD_NAME={{.host.name}}"
 
 {{ if index .env "ssh_authorized_keys" }}
