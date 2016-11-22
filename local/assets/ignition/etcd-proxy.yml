@@ -9,7 +9,7 @@ systemd:
             [Service]
             Environment="ETCD_PROXY=on"
             Environment="ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379"
-            Environment="ETCD_INITIAL_CLUSTER={{ range $i, $node := .env.etcd_ignition_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}"
+            Environment="ETCD_INITIAL_CLUSTER={{ range $i, $node := .env.metadata.etcd_ignition_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}"
 
 {{ if index .env "ssh_authorized_keys" }}
 passwd:

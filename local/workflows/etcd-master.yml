@@ -1,0 +1,9 @@
+# Workflows chain a series of "boots" together. A host will
+# attach itself to a single workflow. A single "boot" is a
+# complete provisioning (bootloader & unattended config/install)
+id: etcd-master
+# or boot-order?
+workflow:
+  - boot: etcd-master
+    next-boot: etcd-master # next-boot is self, also implicit, as last item
+    # next-boot: wipe-disk # or go to first stage if rebooted

@@ -1,0 +1,3 @@
+id: centos
+workflow:
+  - boot: centos

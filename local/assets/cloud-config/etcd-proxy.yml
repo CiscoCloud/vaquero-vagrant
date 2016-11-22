@@ -1,0 +1,84 @@
+#cloud-config
+coreos:
+  update:
+    group: stable
+    reboot-strategy: off
+
+  etcd2:
+    proxy: on
+    listen-client-urls: http://0.0.0.0:2379
+    initial-cluster: {{ .env.md.etcd_initial_cluster }}
+
+  fleet:
+    metadata: "{{ .boot.md.fleet_metadata }},vlan={{ .interface.subnet.vlan }}"
+
+  units:
+    - name: down-interfaces.service
+      command: start
+      content: |
+        [Service]
+        Type=oneshot
+        {{- range $iface := .host.interfaces }}
+        ExecStart=/usr/bin/ip link set {{ $iface.identifier }} down
+        ExecStart=/usr/bin/ip addr flush dev {{ $iface.identifier }}
+        {{ end }}
+    - name: systemd-networkd.service
+      command: restart
+    - name: etcd2.service
+      command: start
+    - name: fleet.service
+      command: start
+      
+
+{{ if index .env "ssh_authorized_keys" }}
+ssh_authorized_keys:
+  {{ range $element := .env.ssh_authorized_keys }}
+  - {{$element}}
+  {{end}}
+{{end}}
+
+write_files:
+  - path: /etc/systemd/network/po0.netdev
+    permissions: 0644
+    owner: root
+    content: |
+      [NetDev]
+      Name=po0
+      Kind=bond
+
+      [Bond]
+      Mode=802.3ad
+      TransmitHashPolicy=layer3+4
+      LACPTransmitRate=fast
+      MIIMonitorSec=1
+  - path: /etc/systemd/network/po0.network
+    permissions: 0644
+    owner: root
+    content: |
+      [Match]
+      Name=po0
+
+      [Link]
+      MACAddress={{ index .host "interfaces" 0 "mac"}}
+
+      [Network]
+      DHCP=ipv4
+      BindCarrier={{ index .host "interfaces" 0 "identifier" }} {{ index .host "interfaces" 1 "identifier" }}
+  - path: /etc/systemd/network/{{ index .host "interfaces" 0 "identifier" }}.network
+    permissions: 0644
+    owner: root
+    content: |
+      [Match]
+      Name={{ index .host "interfaces" 0 "identifier" }}
+
+      [Network]
+      Bond=po0
+  - path: /etc/systemd/network/{{ index .host "interfaces" 1 "identifier" }}.network
+    permissions: 0644
+    owner: root
+    content: |
+      [Match]
+      Name={{ index .host "interfaces" 1 "identifier" }}
+      
+      [Network]
+      Bond=po0

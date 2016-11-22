@@ -1,7 +1,9 @@
 ---
-ServerApi:
-  Address: 10.0.2.15
+ServerAPI:
+  Addr: 10.10.10.5
   Port: 24601
+  PrivateKey: "functional/test/server.key"
+  PublicKey: "functional/test/server.pem"
 SavePath: "/var/vaquero/save"
 DHCPMode: server
 LocalDir:

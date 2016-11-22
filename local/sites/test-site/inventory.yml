@@ -1,72 +1,101 @@
 ---
-host_group: coreos-cloudconfig
-subnet: vagrant1
-hosts:
-- name: etcd1
-  selectors:
+name: etcd1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:21
-  metadata:
+    ipv4: 10.10.10.21
+metadata:
+    etcd_name: etcd1
     mstr: etcd-c1
     role: kube-master
-    ip: 10.10.10.21
-- name: etcd2
-  selectors:
+workflow: etcd-master
+---
+name: etcd2
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:22
-  metadata:
+    ipv4: 10.10.10.22
+metadata:
+    etcd_name: etcd2
     mstr: etcd-c2
     role: kube-master
-    ip: 10.10.10.22
-- name: etcd3
-  selectors:
+workflow: etcd-master
+---
+name: etcd3
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:23
-  metadata:
+    ipv4: 10.10.10.23
+metadata:
+    etcd_name: etcd3
     mstr: etcd-c3
     role: kube-master
-    ip: 10.10.10.23
-- name: node1
-  selectors:
+workflow: etcd-master
+---
+name: node1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:24
-  metadata:
+    ipv4: 10.10.10.24
+metadata:
+    etcd_name: node1
     role: kube-node
-    ip: 10.10.10.24
+workflow: etcd-master
 ---
-host_group: coreos-ignition-cluster
-subnet: vagrant1
-hosts:
-- name: etcdi1
-  selectors:
+name: etcdi1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:31
-  metadata:
-    name: etcdi1
-    ip: 10.10.10.31
-- name: etcdi2
-  selectors:
+    ipv4: 10.10.10.31
+metadata:
+    etcd_name: etcdi1
+    mstr: etcdi1
+    role: kube-master
+workflow: etcd-master
+---
+name: etcdi2
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:32
-  metadata:
-    name: etcdi2
-    ip: 10.10.10.32
-- name: etcdi3
-  selectors:
+    ipv4: 10.10.10.32
+metadata:
+    etcd_name: etcdi2
+    mstr: etcdi2
+    role: kube-master
+workflow: etcd-master
+---
+name: etcdi3
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:33
-  metadata:
-    name: etcdi3
-    ip: 10.10.10.33
+    ipv4: 10.10.10.33
+metadata:
+    etcd_name: etcdi3
+    mstr: etcdi3
+    role: kube-master
+workflow: etcd-master
 ---
-host_group: coreos-ignition-proxy
-subnet: vagrant1
-hosts:
-- name: proxy1
-  selectors:
+name: proxy1
+interfaces:
+  - type: physical
+    subnet: vagrant1
+    identifier: proxy1
     mac: 00:00:00:00:00:34
-  metadata:
-    name: proxy1
-    ip: 10.10.10.34
+    ipv4: 10.10.10.34
+workflow: coreos-ignition-proxy
 ---
-host_group: centos
-subnet: vagrant1
-hosts:
-- name: centos1
-  selectors:
+name: centos1
+interfaces:
+  - type: physical
+    subnet: vagrant1
+    identifier: centos1
     mac: 00:00:00:00:00:41
-  metadata:
-    ip: 10.10.10.41
+    ipv4: 10.10.10.41
+workflow: centos
