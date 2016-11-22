@@ -6,11 +6,11 @@ coreos:
     reboot-strategy: off
 
   etcd2:
-  {{ if eq .host.role "kube-master" }}
+  {{ if eq .host.md.role "kube-master" }}
     # local master enpoints
-    name: {{ .host.mstr }}
-    initial-advertise-peer-urls: http://{{.host.ip}}:2380
-    advertise-client-urls: http://{{.host.ip}}:2379
+    name: {{ .host.md.mstr }}
+    initial-advertise-peer-urls: http://{{.interface.ipv4}}:2380
+    advertise-client-urls: http://{{.interface.ipv4}}:2379
     listen-peer-urls: http://0.0.0.0:2380
   {{ else }}
     proxy: on
@@ -18,13 +18,13 @@ coreos:
 
     # cluster endpoints
     listen-client-urls: http://0.0.0.0:2379
-    initial-cluster: {{ range $i, $node := .env.etcd_cloud_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}
+    initial-cluster: {{ range $i, $node := .env.md.etcd_cloud_nodes }}{{ if $i }},{{end}}{{$node.name}}=http://{{$node.ip}}:2380{{end}}
 
   fleet:
   {{ if index .host "mstr" }}
-    metadata: "role={{.host.role}},kube-master={{.host.mstr}},vlan={{.host.interface.vlan}},vlan-{{.host.interface.vlan}}=true{{if index .host "fleetadd"}}{{.host.fleetadd}}{{end}}"
+    metadata: "role={{.host.md.role}},kube-master={{.host.md.mstr}},vlan={{.interface.subnet.vlan}},vlan-{{.interface.subnet.vlan}}=true{{if index .host "fleetadd"}}{{.host.fleetadd}}{{end}}"
   {{ else }}
-    metadata: "role={{.host.role}},vlan={{.host.interface.vlan}},vlan-{{.host.interface.vlan}}=true{{if index .host "fleetadd"}}{{.host.fleetadd}}{{end}}"
+    metadata: "role={{.host.md.role}},vlan={{.interface.subnet.vlan}},vlan-{{.interface.subnet.vlan}}=true{{if index .host "fleetadd"}}{{.host.fleetadd}}{{end}}"
   {{ end }}
 
   units:
@@ -55,5 +55,5 @@ ssh_authorized_keys:
 {{ else }}
 users:
   - name: core
-    passwd: {{ .group.root_pass }}
+    passwd: {{ .boot.metadata.root_pass }}
 {{ end }}

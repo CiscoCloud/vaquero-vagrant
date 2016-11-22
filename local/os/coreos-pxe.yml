@@ -6,9 +6,9 @@ minor_version: '2.0'
 os_family: CoreOS
 release_name: stable
 boot:
-  kernel: "{{.agent.url}}/files/coreos_production_pxe.vmlinuz"
+  kernel: "{{.env.agentURL}}/files/coreos_production_pxe.vmlinuz"
   initrd:
-  - "{{.agent.url}}/files/coreos_production_pxe_image.cpio.gz"
+  - "{{.env.agentURL}}/files/coreos_production_pxe_image.cpio.gz"
 cmdline:
   coreos.autologin: ''
   coreos.first_boot: ''
