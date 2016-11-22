@@ -1,7 +1,8 @@
 ---
-AgentApi:
-  InsecureAddr: 10.10.10.8
-  InsecurePort: 24602
+AgentAPI:
+  Addr: 10.10.10.5
+  Port: 24601
+  InsecureSkipVerify: true
 AssetServer:
   Addr: 10.10.10.8
   Port: 8080
