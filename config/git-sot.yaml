@@ -1,7 +1,9 @@
 ---
-ServerApi:
+ServerAPI:
   Addr: 10.10.10.5
   Port: 24601
+  PrivateKey: "/vaquero/secret/server.key"
+  PublicKey: "/vaquero/secret/server.pem"
 ServerClient:
   Addr: 10.10.10.5
   Port: 24601
