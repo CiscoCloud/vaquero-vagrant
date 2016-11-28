@@ -1,13 +1,15 @@
 ---
-AgentApi:
-  InsecureAddr: 10.10.10.8
-  InsecurePort: 24604
+ServerClient:
+  Addr: 10.10.10.5
+  Port: 24601
+  InsecureSkipVerify: true
 AssetServer:
   Addr: 10.10.10.8
   Port: 24602
   BaseDir: "/var/vaquero/files"
   Scheme: http
-SavePath: "/var/vaquero/save"
+DHCPMode: server
+SavePath: "/var/vaquero"
 SoT:
 - Local:
     ID: vaquero-local

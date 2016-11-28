@@ -1,8 +1,8 @@
 ---
 ServerApi:
-  Address: 10.0.2.15
+  Addr: 10.10.10.5
   Port: 24601
-SavePath: "/var/vaquero/save"
+SavePath: "/var/vaquero"
 DHCPMode: server
 LocalDir:
   PollInterval: 1
