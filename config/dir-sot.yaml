@@ -2,18 +2,18 @@
 ServerAPI:
   Addr: 10.10.10.5
   Port: 24601
-  PrivateKey: "functional/test/server.key"
-  PublicKey: "functional/test/server.pem"
-AgentAPI:
+  PrivateKey: "/vaquero/secret/server.key"
+  PublicKey: "/vaquero/secret/server.pem"
+ServerClient:
   Addr: 10.10.10.5
   Port: 24601
   InsecureSkipVerify: true
 AssetServer:
   Addr: 10.10.10.5
-  Port: 8080
+  Port: 24602
   BaseDir: "/var/vaquero/files"
   Scheme: http
-SavePath: "/var/vaquero/save"
+SavePath: "/var/vaquero"
 DHCPMode: server
 LocalDir:
   PollInterval: 1
