@@ -77,10 +77,11 @@ if [ $PXE_COUNT > 0 ]
             VBoxManage modifyvm $vmName --boot1 net --memory 2048;
 
             VBoxManage modifyvm $vmName --nic1 natnetwork --nat-network1 vaq;
-            VBoxManage modifyvm $vmName --nictype1 82543GC --nicbootprio1 4;
+            VBoxManage modifyvm $vmName --nictype1 82543GC --nicbootprio1 4 --cableconnected1 on;
+
 
             VBoxManage modifyvm $vmName --nic2 intnet --intnet2 vaquero --nicpromisc2 allow-all;
-            VBoxManage modifyvm $vmName --nictype2 82543GC  --macaddress2 $mac --nicbootprio2 1;
+            VBoxManage modifyvm $vmName --nictype2 82543GC  --macaddress2 $mac --nicbootprio2 1 --cableconnected2 on;
 
             VBoxManage modifyvm $vmName --boot1 disk --boot2 net
 

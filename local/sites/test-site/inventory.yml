@@ -6,7 +6,7 @@ interfaces:
     mac: 00:00:00:00:00:21
     ipv4: 10.10.10.21
 metadata:
-    mstr: etcd-c1
+    mstr: etcd1
     role: kube-master
     ip: 10.10.10.21
 workflow: coreos-cloudconfig
@@ -18,7 +18,7 @@ interfaces:
     mac: 00:00:00:00:00:22
     ipv4: 10.10.10.22
 metadata:
-    mstr: etcd-c2
+    mstr: etcd2
     role: kube-master
     ip: 10.10.10.22
 workflow: coreos-cloudconfig
@@ -30,7 +30,7 @@ interfaces:
     mac: 00:00:00:00:00:23
     ipv4: 10.10.10.23
 metadata:
-    mstr: etcd-c3
+    mstr: etcd3
     role: kube-master
     ip: 10.10.10.23
 workflow: coreos-cloudconfig
