@@ -1,72 +1,102 @@
 ---
-host_group: coreos-cloudconfig
-subnet: vagrant1
-hosts:
-- name: etcd1
-  selectors:
+name: etcd1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:21
-  metadata:
-    mstr: etcd-c1
+    ipv4: 10.10.10.21
+metadata:
+    mstr: etcd1
     role: kube-master
     ip: 10.10.10.21
-- name: etcd2
-  selectors:
+workflow: coreos-cloudconfig
+---
+name: etcd2
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:22
-  metadata:
-    mstr: etcd-c2
+    ipv4: 10.10.10.22
+metadata:
+    mstr: etcd2
     role: kube-master
     ip: 10.10.10.22
-- name: etcd3
-  selectors:
+workflow: coreos-cloudconfig
+---
+name: etcd3
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:23
-  metadata:
-    mstr: etcd-c3
+    ipv4: 10.10.10.23
+metadata:
+    mstr: etcd3
     role: kube-master
     ip: 10.10.10.23
-- name: node1
-  selectors:
+workflow: coreos-cloudconfig
+---
+name: node1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:24
-  metadata:
+    ipv4: 10.10.10.24
+metadata:
     role: kube-node
     ip: 10.10.10.24
+workflow: coreos-cloudconfig
 ---
-host_group: coreos-ignition-cluster
-subnet: vagrant1
-hosts:
-- name: etcdi1
-  selectors:
+name: etcdi1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:31
-  metadata:
+    ipv4: 10.10.10.31
+metadata:
     name: etcdi1
     ip: 10.10.10.31
-- name: etcdi2
-  selectors:
+workflow: coreos-ignition-cluster
+---
+name: etcdi2
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:32
-  metadata:
+    ipv4: 10.10.10.32
+metadata:
     name: etcdi2
     ip: 10.10.10.32
-- name: etcdi3
-  selectors:
+workflow: coreos-ignition-cluster
+---
+name: etcdi3
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:33
-  metadata:
+    ipv4: 10.10.10.33
+metadata:
     name: etcdi3
     ip: 10.10.10.33
+workflow: coreos-ignition-cluster
 ---
-host_group: coreos-ignition-proxy
-subnet: vagrant1
-hosts:
-- name: proxy1
-  selectors:
+name: proxy1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:34
-  metadata:
+    ipv4: 10.10.10.34
+metadata:
     name: proxy1
     ip: 10.10.10.34
+workflow: coreos-ignition-proxy
 ---
-host_group: centos
-subnet: vagrant1
-hosts:
-- name: centos1
-  selectors:
+name: centos1
+interfaces:
+  - type: physical
+    subnet: vagrant1
     mac: 00:00:00:00:00:41
-  metadata:
+    ipv4: 10.10.10.41
+metadata:
+    name: centos1
     ip: 10.10.10.41
+workflow: centos
