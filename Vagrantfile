@@ -6,6 +6,7 @@ $vs_num = (ENV['VS_NUM'] || 1).to_i
 $va_num = (ENV['VA_NUM'] || 0).to_i
 $dev = (ENV['V_DEV'] || 0).to_i
 $relay = (ENV['V_RELAY'] || 0).to_i
+$lb = (ENV['V_LB'] || 0).to_i
 $max = 3
 
 def medium(config, name)
@@ -125,6 +126,21 @@ Vagrant.configure(2) do |config|
           relay.vm.provision :shell, inline: "sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf && sysctl -p /etc/sysctl.conf"
           relay.vm.provision :shell, path: "provision_scripts/dhcp-helper.sh"
         end
+    end
+
+    $lb.times do |i|
+      i = 0
+      config.vm.define "lb" do |lb|
+          medium(config, "lb")
+          setNetwork(lb, "10.10.10.4")
+          lb.vm.hostname = "lb"
+          lb.vm.box = $vaquero
+          lb.vm.network "forwarded_port", guest: 24600, host: 24600
+          lb.vm.provision :shell, inline: 'echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf'
+          lb.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+          lb.vm.provision :shell, path: "provision_scripts/net-start.sh"
+          lb.vm.provision :shell, path: "provision_scripts/haproxy.sh"
+      end
     end
 
     config.vm.define "dnsmasq", autostart: false do |dnsmasq|
