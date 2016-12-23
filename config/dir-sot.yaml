@@ -8,11 +8,6 @@ ServerClient:
   Addr: 10.10.10.5
   Port: 24601
   InsecureSkipVerify: true
-AssetServer:
-  Addr: 10.10.10.5
-  Port: 24602
-  BaseDir: "/var/vaquero/files"
-  Scheme: http
 SavePath: "/var/vaquero"
 Etcd:
   Endpoints:
@@ -21,7 +16,6 @@ Etcd:
   - "http://10.10.10.7:2379"
   Timeout: 5
   Retry: 3
-DHCPMode: server
 LocalDir:
   PollInterval: 1
 SoT:
