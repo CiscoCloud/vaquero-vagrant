@@ -8,13 +8,7 @@ ServerClient:
   Addr: 10.10.10.5
   Port: 24601
   InsecureSkipVerify: true
-AssetServer:
-  Addr: 10.10.10.5
-  Port: 24602
-  BaseDir: "/var/vaquero/files"
-  Scheme: http
 SavePath: "/var/vaquero/save"
-DHCPMode: server
 Gitter:
   Endpoint: "/postreceive"
   Timeout: 2

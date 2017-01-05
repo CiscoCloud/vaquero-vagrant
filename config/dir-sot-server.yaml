@@ -5,7 +5,6 @@ ServerAPI:
   PrivateKey: "/vaquero/secret/server.key"
   PublicKey: "/vaquero/secret/server.pem"
 SavePath: "/var/vaquero"
-DHCPMode: server
 LocalDir:
   PollInterval: 1
 SoT:
