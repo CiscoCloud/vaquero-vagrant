@@ -10,5 +10,5 @@ boot:
   initrd:
   - "{{.env.agentURL}}/files/coreos_production_pxe_image.cpio.gz"
 cmdline:
-  coreos.autologin: ''
-  coreos.first_boot: ''
+  - coreos.autologin: ''
+  - coreos.first_boot: ''
