@@ -76,15 +76,23 @@ Vagrant.configure(2) do |config|
         abort("VS_NUM=#{$vs_num}. It cannot be greater than #{$max}")
     end
 
-    cluster=""
+    peerCluster=""
+    pubCluster=""
     $vs_num.times do |i|
         name = "vs-#{i+1}"
         ipStart = 5
         ipString = getIP(i, ipStart)
-        cluster << sprintf("%s=http://%s:%s",name,ipString,"2380")
+        peerCluster << sprintf("%s=http://%s:%s",name,ipString,"2380")
+        pubCluster << sprintf("http://%s:%s",ipString,"2379")
         if i < $vs_num - 1
-          cluster << ","
+          peerCluster << ","
+          pubCluster << ","
         end
+
+        if i == 1
+          masterIP = ipString
+        end
+
         config.vm.define name do |server|
             server.vm.box = $vaquero
             setSize(config, name)
@@ -92,8 +100,10 @@ Vagrant.configure(2) do |config|
             importDevPath(server)
             server.vm.hostname = name
             server.vm.provision :shell, path: "provision_scripts/net-start.sh"
-            server.vm.provision :shell, path: "provision_scripts/etcd-config.sh", args: "#{name} #{ipString} #{cluster}", privileged: false
+            server.vm.provision :shell, path: "provision_scripts/etcd-config.sh", args: "#{name} #{ipString} #{peerCluster}", privileged: false
             server.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
+            # server.vm.provision :shell, path: "provision_scripts/kube-master.sh", args: "#{ipString} #{pubCluster}"
+            # server.vm.provision :shell, path: "provision_scripts/kube-minion.sh", args: "#{ipString} #{masterIP}:8080 #{pubCluster}"
             server.vm.provision :shell, path: "provision_scripts/govendor.sh"
             server.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         end
@@ -158,7 +168,7 @@ Vagrant.configure(2) do |config|
         vaquero.vm.box_version = "1.1.3"
         vaquero.ssh.insert_key = false
         vaquero.vm.provision :shell, path: "provision_scripts/general.sh"
-        vaquero.vm.provision :shell, path: "provision_scripts/docker.sh"
+        vaquero.vm.provision :shell, path: "provision_scripts/kube.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/docker-start.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/dnsmasq-start.sh"
