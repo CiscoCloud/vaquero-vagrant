@@ -78,18 +78,19 @@ Vagrant.configure(2) do |config|
 
     peerCluster=""
     pubCluster=""
+    masterIP=""
     $vs_num.times do |i|
         name = "vs-#{i+1}"
         ipStart = 5
         ipString = getIP(i, ipStart)
-        peerCluster << sprintf("%s=http://%s:%s",name,ipString,"2380")
-        pubCluster << sprintf("http://%s:%s",ipString,"2379")
+        peerCluster << sprintf("%s=http://%s:2380",name,ipString)
+        pubCluster << sprintf("http://%s:2379",ipString)
         if i < $vs_num - 1
           peerCluster << ","
           pubCluster << ","
         end
 
-        if i == 1
+        if i == 0
           masterIP = ipString
         end
 
@@ -102,10 +103,11 @@ Vagrant.configure(2) do |config|
             server.vm.provision :shell, path: "provision_scripts/net-start.sh"
             server.vm.provision :shell, path: "provision_scripts/etcd-config.sh", args: "#{name} #{ipString} #{peerCluster}", privileged: false
             server.vm.provision :shell, path: "provision_scripts/etcd-start.sh"
-            # server.vm.provision :shell, path: "provision_scripts/kube-master.sh", args: "#{ipString} #{pubCluster}"
-            # server.vm.provision :shell, path: "provision_scripts/kube-minion.sh", args: "#{ipString} #{masterIP}:8080 #{pubCluster}"
             server.vm.provision :shell, path: "provision_scripts/govendor.sh"
             server.vm.provision :shell, path: "provision_scripts/docker-start.sh"
+            server.vm.provision :shell, path: "provision_scripts/kube-config.sh", args: "#{ipString} #{masterIP} #{pubCluster}"
+            server.vm.provision :shell, path: "provision_scripts/kubectl.sh", args: "#{masterIP}", privileged: false
+            server.vm.provision "file", source: "provision_files/kube-start.sh", destination: "/home/vagrant/kube-start.sh"
         end
     end
 
