@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $(hostname) = "vs-1" ]; then
-  echo "Detected master starting master services"
+  echo "Detected master, starting master services"
   ETCDCTL_API=2 etcdctl mkdir /kube-centos/network
   ETCDCTL_API=2 etcdctl mk /kube-centos/network/config "{ \"Network\": \"172.30.0.0/16\", \"SubnetLen\": 24, \"Backend\": { \"Type\": \"vxlan\" } }"
 
