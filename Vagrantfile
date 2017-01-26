@@ -108,6 +108,8 @@ Vagrant.configure(2) do |config|
             server.vm.provision :shell, path: "provision_scripts/kube-config.sh", args: "#{ipString} #{masterIP} #{pubCluster}"
             server.vm.provision :shell, path: "provision_scripts/kubectl.sh", args: "#{masterIP}", privileged: false
             server.vm.provision "file", source: "provision_files/kube-start.sh", destination: "/home/vagrant/kube-start.sh"
+            server.vm.provision "file", source: "provision_files/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+            server.vm.provision "file", source: "provision_files/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
         end
     end
 
