@@ -10,3 +10,4 @@ unattended:
 
 metadata:
   fleet_role: etcd
+  root_pass: $1$De/uvwHY$77ZDxv9lNwZJbwFziq4Ix0
