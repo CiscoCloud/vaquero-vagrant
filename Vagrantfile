@@ -1,4 +1,5 @@
-$base = "geerlingguy/centos7"
+$cent = "geerlingguy/centos7"
+$base = "gemini/base"
 $vaquero = "gemini/vaquero"
 $ubuntu = "ubuntu/trusty64"
 
@@ -167,7 +168,6 @@ Vagrant.configure(2) do |config|
     config.vm.define "build_vaquero", autostart: false do |vaquero|
         large(config, "build_vaquero")
         vaquero.vm.box = $base
-        vaquero.vm.box_version = "1.1.3"
         vaquero.ssh.insert_key = false
         vaquero.vm.provision :shell, path: "provision_scripts/general.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/kube.sh"
@@ -178,4 +178,21 @@ Vagrant.configure(2) do |config|
         vaquero.vm.provision :shell, path: "provision_scripts/etcd.sh"
         vaquero.vm.provision :shell, path: "provision_scripts/drone.sh"
     end
+
+    # To build,
+    # 1. `vagrant up base`
+    # 2. `vagrant ssh base` (once it reboots)
+    # 3. `sudo ./vb_guest.sh`
+    config.vm.define "base", autostart: false do |base|
+        large(config, "base")
+        base.vm.box = $cent
+        base.vm.box_version = "1.1.3"
+        base.ssh.insert_key = false
+        base.vm.provision :shell, inline: "yum -y update"
+        base.vm.provision :shell, inline: "yum -y install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel"
+        base.vm.provision "file", source: "provision_files/vb_guest.sh", destination: "/home/vagrant/vb_guest.sh"
+        base.vm.provision :shell, inline: "reboot"
+        base.vm.provision :shell, path: "provision_files/vb_guest.sh"
+    end
+
 end
