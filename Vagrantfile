@@ -194,5 +194,4 @@ Vagrant.configure(2) do |config|
         base.vm.provision :shell, inline: "reboot"
         base.vm.provision :shell, path: "provision_files/vb_guest.sh"
     end
-
 end
