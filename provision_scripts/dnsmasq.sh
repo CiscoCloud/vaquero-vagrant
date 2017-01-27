@@ -10,7 +10,7 @@ cd dnsmasq-$VERSION
 make -j 10
 sudo make install
 
-sudo cp /vagrant/provision_files/dnsmasq-netboot.conf /etc/dnsmasq.conf
+sudo cp /vagrant/provision_files/dnsmasq-iponly.conf /etc/dnsmasq.conf
 
 sudo mkdir /var/ftpd
 cd ~
