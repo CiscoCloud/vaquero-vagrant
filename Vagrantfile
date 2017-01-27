@@ -182,7 +182,7 @@ Vagrant.configure(2) do |config|
     # To build,
     # 1. `vagrant up base`
     # 2. `vagrant ssh base` (once it reboots)
-    # 3. `sudo ./vb_guest.sh`
+    # 3. `sudo /vagrant/provision_scripts/vb_guest.sh`
     config.vm.define "base", autostart: false do |base|
         large(config, "base")
         base.vm.box = $cent
@@ -190,8 +190,6 @@ Vagrant.configure(2) do |config|
         base.ssh.insert_key = false
         base.vm.provision :shell, inline: "yum -y update"
         base.vm.provision :shell, inline: "yum -y install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel"
-        base.vm.provision "file", source: "provision_files/vb_guest.sh", destination: "/home/vagrant/vb_guest.sh"
         base.vm.provision :shell, inline: "reboot"
-        base.vm.provision :shell, path: "provision_files/vb_guest.sh"
     end
 end
