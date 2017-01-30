@@ -14,7 +14,6 @@ systemd:
 passwd:
   users:
     - name: core
-      passwordHash: {{ .boot.metadata.root_pass }}
       {{- if index .env.metadata "ssh_authorized_keys" }}
       ssh_authorized_keys:
         {{- range $element := .env.metadata.ssh_authorized_keys }}
