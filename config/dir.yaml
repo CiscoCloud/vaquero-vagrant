@@ -2,8 +2,8 @@
 ServerAPI:
   Addr: 10.10.10.5
   Port: 24601
-  PrivateKey: "/vagrant/provision_files/secret/server.key"
-  PublicKey: "/vagrant/provision_files/secret/server.pem"
+  PrivateKey: "/vaquero/secret/server.key"
+  PublicKey: "/vaquero/secret/server.pem"
 ServerClient:
   Addr: 10.10.10.5
   Port: 24601

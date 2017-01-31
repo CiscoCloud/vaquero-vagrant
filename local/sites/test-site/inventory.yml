@@ -17,6 +17,7 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:22
     ipv4: 10.10.10.22
+
 metadata:
     mstr: etcd2
     role: kube-master
