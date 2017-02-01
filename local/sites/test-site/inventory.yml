@@ -15,6 +15,10 @@ name: etcd2
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:22
     ipv4: 10.10.10.22
 metadata:

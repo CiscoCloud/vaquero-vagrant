@@ -1,0 +1,21 @@
+---
+ServerAPI:
+  Addr: 10.10.10.5
+  Port: 24601
+  PrivateKey: "/vagrant/provision_files/secret/server.key"
+  PublicKey: "/vagrant/provision_files/secret/server.pem"
+ServerClient:
+  Addr: 10.10.10.5
+  Port: 24601
+  InsecureSkipVerify: true
+SavePath: "/var/vaquero"
+LocalDir:
+  PollInterval: 1
+SoT:
+- Local:
+    ID: vaquero-local
+    Root: /vagrant/local
+Log:
+  Level: info
+  Location: stdout
+  Type: text

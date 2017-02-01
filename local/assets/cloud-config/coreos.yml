@@ -34,13 +34,12 @@ coreos:
             # Setting max log size to 10M
             Environment="DOCKER_OPTS=--log-driver=json-file --log-opt max-size=10m"
 
-{{ if index .env "ssh_authorized_keys" }}
+{{ if index .env.metadata "ssh_authorized_keys" }}
 ssh_authorized_keys:
-  {{ range $element := .env.ssh_authorized_keys }}
-  - {{$element}}
+  {{ range $element := .env.metadata.ssh_authorized_keys }}
+  - {{ $element}}
   {{ end }}
-{{ else }}
+{{ end }}
 users:
   - name: core
     passwd: {{ .boot.metadata.root_pass }}
-{{ end }}
