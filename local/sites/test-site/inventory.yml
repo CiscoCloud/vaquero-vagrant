@@ -9,7 +9,6 @@ interfaces:
       type: ssh
       username: core
       keypath: /vagrant/provision_files/id_rsa
-
 metadata:
     mstr: etcd1
     role: kube-master
