@@ -15,9 +15,9 @@ passwd:
   users:
     - name: core
       password_hash: {{ .boot.metadata.root_pass }}
-      {{- if index .env.metadata "ssh_authorized_keys" }}
+      {{- if index .host.metadata "ssh_authorized_keys" }}
       ssh_authorized_keys:
-        {{- range $element := .env.metadata.ssh_authorized_keys }}
+        {{- range $element := .host.metadata.ssh_authorized_keys }}
         - {{$element}}
         {{end}}
       {{end}}
