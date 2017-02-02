@@ -5,6 +5,11 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:21
     ipv4: 10.10.10.21
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
+
 metadata:
     mstr: etcd1
     role: kube-master
