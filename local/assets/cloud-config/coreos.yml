@@ -34,9 +34,9 @@ coreos:
             # Setting max log size to 10M
             Environment="DOCKER_OPTS=--log-driver=json-file --log-opt max-size=10m"
 
-{{ if index .host.metadata "ssh_authorized_keys" }}
+{{ if index .env.metadata "ssh_authorized_keys" }}
 ssh_authorized_keys:
-  {{ range $element := .host.metadata.ssh_authorized_keys }}
+  {{ range $element := .env.metadata.ssh_authorized_keys }}
   - {{ $element}}
   {{ end }}
 {{ end }}
