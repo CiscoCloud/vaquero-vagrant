@@ -10,3 +10,4 @@ unattended:
 
 metadata:
   fleet_metadata: role=etcd-proxy
+  root_pass: $1$De/uvwHY$77ZDxv9lNwZJbwFziq4Ix0

@@ -5,6 +5,10 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:21
     ipv4: 10.10.10.21
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
 metadata:
     mstr: etcd1
     role: kube-master
@@ -15,6 +19,10 @@ name: etcd2
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:22
     ipv4: 10.10.10.22
 metadata:
@@ -27,6 +35,10 @@ name: etcd3
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:23
     ipv4: 10.10.10.23
 metadata:
@@ -39,6 +51,10 @@ name: node1
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:24
     ipv4: 10.10.10.24
 metadata:
@@ -50,6 +66,10 @@ name: etcdi1
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:31
     ipv4: 10.10.10.31
 metadata:
@@ -61,6 +81,10 @@ name: etcdi2
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:32
     ipv4: 10.10.10.32
 metadata:
@@ -72,6 +96,10 @@ name: etcdi3
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:33
     ipv4: 10.10.10.33
 metadata:
@@ -83,11 +111,17 @@ name: proxy1
 interfaces:
   - type: physical
     subnet: vagrant1
+    bmc:
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
     mac: 00:00:00:00:00:34
     ipv4: 10.10.10.34
 metadata:
     name: proxy1
     ip: 10.10.10.34
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDI0kPZ6jtnDXy7cVJQLpWxOlPefYBt6p2CdxEV/f4zppkaVPLl2Nc4IhBQdEQqjgxTFonnIEQ29gQug5IpyrjQ6GvNDjzZ/Oq/Vwj52h6OLr9RcUaU3OZkDp5uyo1Wrg8HqAD5bcZwgJgo+7T2eQTdFECnv1IDHJrTVF48paA9mf600zoKvncKKo6jixRDFc9eQb6Mq0Mbh2ABy8V0j5T42qjzJJixNnUZDRflGSKFDl3GEkZuXe3bGUqT865/Pe+sKoWeGagL2cXpwkfhiSM+XQSf/TFKf/h3ABImEqDw4hO7x2W2Dd5s+SAGl+LbsCuxvRUE20m5tlMX4bPpSTAj vagrant@vs-1
 workflow: coreos-ignition-proxy
 ---
 name: centos1
