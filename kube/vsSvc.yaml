@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: vs-service
+spec:
+  type: NodePort
+  selector:
+    app: vs-pod
+  ports:
+  - name: v1
+    protocol: TCP
+    port: 24601
+    nodePort: 30601
+  - name: v3
+    protocol: TCP
+    port: 24603
+    nodePort: 30603
+  - name: v4
+    protocol: TCP
+    port: 24604
+    nodePort: 30604

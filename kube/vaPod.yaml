@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: va-pod
+  labels:
+    app: va-pod
+spec:
+  hostNetwork: true
+  containers:
+    - name: va-pod
+      image: shippedrepos-docker-vaquero.bintray.io/vaquero/vaquero:latest
+      args:
+        - "agent"
+        - "--config"
+        - "/config/config.yaml"
+      env:
+        - name: VAQUERO_SHARED_SECRET
+          value: "shared"
+        - name: VAQUERO_SERVER_SECRET
+          value: "server"
+        - name: VAQUERO_SITE_ID
+          value: "test-site"
+        - name: VAQUERO_AGENT_ID
+          value: "test-agent"
+      ports:
+        - containerPort: 24602
+      volumeMounts:
+        - mountPath: /config
+          name: config
+  volumes:
+    - name: config
+      configMap:
+        name: va-config
+        items:
+        - key: va-config.yaml
+          path: config.yaml
