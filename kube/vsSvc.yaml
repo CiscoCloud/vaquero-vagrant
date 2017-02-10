@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: vs-service
+  name: vs-svc
 spec:
   type: NodePort
   selector:
