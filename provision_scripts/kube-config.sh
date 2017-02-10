@@ -29,6 +29,8 @@ fi
 
 echo "Loading Kube-Minion"
 
+sed -i "s#KUBE_MASTER=\"--master=http://127.0.0.1:8080\"#KUBE_MASTER=\"--master=http://$2:8080\"#" $KUBE_CONF
+
 sed -i "s#KUBELET_ADDRESS=\"--address=127.0.0.1\"#KUBELET_ADDRESS=\"--address=$1\"#" $LET_CONF
 sed -i "s#KUBELET_API_SERVER=\"--api-servers=http://127.0.0.1:8080\"#KUBELET_API_SERVER=\"--api-servers=http://$2:8080\"#" $LET_CONF
 sed -i "s#KUBELET_HOSTNAME=\"--hostname-override=127.0.0.1\"#KUBELET_HOSTNAME=\"--hostname-override=$1\"#" $LET_CONF
