@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: vs-pod
-          # image: gemtest/ready:0.5
           image: shippedrepos-docker-vaquero.bintray.io/vaquero/vaquero:latest
           args:
             - "server"
