@@ -27,6 +27,8 @@ spec:
       volumeMounts:
         - mountPath: /config
           name: config
+        - mountPath: /var/vaquero/files
+          name: assets
   volumes:
     - name: config
       configMap:
@@ -34,3 +36,6 @@ spec:
         items:
         - key: va-config.yaml
           path: config.yaml
+    - name: assets
+      hostPath:
+        path: /var/vaquero/files
