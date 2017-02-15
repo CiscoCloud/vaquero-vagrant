@@ -23,6 +23,6 @@ validate:
   - image: busybox
     pull: yes
     commands:
-      - /bin/sh -c "[ -e /etc ]"
+      - "[ -e /etc ]"
     retry: 0
     timeout: 60

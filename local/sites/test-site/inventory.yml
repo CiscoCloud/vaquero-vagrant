@@ -44,7 +44,7 @@ interfaces:
     bmc:
         type: custom
         container:
-          image: vaquero.registry.com/ipmi:latest
+          image: gemtest/ipmitool
           pull: yes
           commands:
             - ipmitool -H 10.10.10.123 -I imb -U root -P secret power cycle
@@ -142,6 +142,14 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:41
     ipv4: 10.10.10.41
+  - type: bmc
+    subnet: vagrant1
+    mac: 00:00:00:00:10:41
+    bmc:
+      type: ipmi
+      username: steve
+      password: adam
+    ipv4: 10.10.10.141
 metadata:
     name: centos1
     ip: 10.10.10.41

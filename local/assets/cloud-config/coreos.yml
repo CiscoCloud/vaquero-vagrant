@@ -21,7 +21,7 @@ coreos:
       command: start
       content: |
         [Unit]
-        Description=CoreOS {{.boot.md.channel}} {{.boot.md.version}} (Re)Provision
+        Description=CoreOS (Re)Provision
         Author=Vaquero
 
         [Service]
