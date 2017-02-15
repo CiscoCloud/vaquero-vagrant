@@ -9,13 +9,6 @@ ServerClient:
   Port: 24601
   InsecureSkipVerify: true
 SavePath: "/var/vaquero"
-Etcd:
-  Endpoints:
-  - "http://10.10.10.5:2379"
-  - "http://10.10.10.6:2379"
-  - "http://10.10.10.7:2379"
-  Timeout: 5
-  Retry: 3
 LocalDir:
   PollInterval: 1
 SoT:

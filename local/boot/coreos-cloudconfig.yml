@@ -10,3 +10,19 @@ unattended:
 
 metadata:
   root_pass: $1$De/uvwHY$77ZDxv9lNwZJbwFziq4Ix0
+
+before_shutdown:
+  - image: busybox
+    pull: yes
+    commands:
+      - /bin/ls
+    retry: 0
+    timeout: 60
+
+validate:
+  - image: busybox
+    pull: yes
+    commands:
+      - /bin/sh -c "[ -e /etc ]"
+    retry: 0
+    timeout: 60
