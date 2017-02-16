@@ -19,6 +19,7 @@ if [ $1 = $2 ]; then
 
 	sed -i "s#FLANNEL_ETCD_ENDPOINTS=\"http://127.0.0.1:2379\"#FLANNEL_ETCD_ENDPOINTS=\"$3\"#" $FLA_CONF
 	sed -i "s#/atomic.io/network#kube-centos/network#" $FLA_CONF
+	sed -i "s/#FLANNEL_OPTIONS=\"\"/FLANNEL_OPTIONS=\"--iface=enp0s8\"/" $FLA_CONF
 
 	setenforce 0
 	systemctl disable firewalld
@@ -35,10 +36,11 @@ sed -i "s#KUBELET_ADDRESS=\"--address=127.0.0.1\"#KUBELET_ADDRESS=\"--address=$1
 sed -i "s#KUBELET_API_SERVER=\"--api-servers=http://127.0.0.1:8080\"#KUBELET_API_SERVER=\"--api-servers=http://$2:8080\"#" $LET_CONF
 sed -i "s#KUBELET_HOSTNAME=\"--hostname-override=127.0.0.1\"#KUBELET_HOSTNAME=\"--hostname-override=$1\"#" $LET_CONF
 sed -i "s/# KUBELET_PORT/KUBELET_PORT/" $LET_CONF
-sed -i "s#KUBELET_ARGS=\"\"#KUBELET_ARGS=\"--cluster-dns='10.0.2.3'\"#"
+sed -i "s#KUBELET_ARGS=\"\"#KUBELET_ARGS=\"--cluster-dns='10.0.2.3'\"#" $LET_CONF
 
 sed -i "s#FLANNEL_ETCD_ENDPOINTS=\"http://127.0.0.1:2379\"#FLANNEL_ETCD_ENDPOINTS=\"$3\"#" $FLA_CONF
 sed -i "s#/atomic.io/network#kube-centos/network#" $FLA_CONF
+sed -i "s/#FLANNEL_OPTIONS=\"\"/FLANNEL_OPTIONS=\"--iface=enp0s8\"/" $FLA_CONF
 
 echo "Done configuring Kube-Minion"
 
