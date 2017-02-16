@@ -12,9 +12,7 @@ spec:
     spec:
       containers:
         - name: vs-pod
-          image: flight/test:0.1
-          imagePullPolicy: IfNotPresent
-          #image: shippedrepos-docker-vaquero.bintray.io/vaquero/vaquero
+          image: shippedrepos-docker-vaquero.bintray.io/vaquero/vaquero
           args:
             - "server"
             - "--config"
