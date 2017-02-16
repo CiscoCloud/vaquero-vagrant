@@ -4,6 +4,7 @@ KUBE_CONF=/etc/kubernetes/config
 API_CONF=/etc/kubernetes/apiserver
 FLA_CONF=/etc/sysconfig/flanneld
 LET_CONF=/etc/kubernetes/kubelet
+PXY_CONF=/etc/kubernetes/proxy
 
 if [ $1 = $2 ]; then
 	echo "Loading Kube-Master"
@@ -41,6 +42,8 @@ sed -i "s#KUBELET_ARGS=\"\"#KUBELET_ARGS=\"--cluster-dns='10.0.2.3'\"#" $LET_CON
 sed -i "s#FLANNEL_ETCD_ENDPOINTS=\"http://127.0.0.1:2379\"#FLANNEL_ETCD_ENDPOINTS=\"$3\"#" $FLA_CONF
 sed -i "s#/atomic.io/network#kube-centos/network#" $FLA_CONF
 sed -i "s/#FLANNEL_OPTIONS=\"\"/FLANNEL_OPTIONS=\"--iface=enp0s8\"/" $FLA_CONF
+
+sed -i "s#KUBE_PROXY_ARGS=\"\"#KUBE_PROXY_ARGS=\"--hostname-override=$1, --cluster-cidr=10.10.10.0/28\"#" $PXY_CONF
 
 echo "Done configuring Kube-Minion"
 
