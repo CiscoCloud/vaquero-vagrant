@@ -1,0 +1,9 @@
+ServerClient:
+  Addr: "<INSERT vs-service CLUSTERIP here>"
+  Port: 24601
+  InsecureSkipVerify: true
+SavePath: "/var/vaquero"
+Log:
+  Level: info
+  Location: stdout
+  LogType: text

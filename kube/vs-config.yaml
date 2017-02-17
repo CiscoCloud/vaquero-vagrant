@@ -1,0 +1,32 @@
+UserApi:
+  Addr: "0.0.0.0"
+  Port: 24604
+ServerAPI:
+  Addr: "0.0.0.0"
+  Port: 24601
+  PrivateKey: "/secret/server.key"
+  PublicKey: "/secret/server.pem"
+SavePath: "/var/vaquero"
+Gitter:
+  Endpoint: "/postreceive"
+  Timeout: 2
+  Addr: "0.0.0.0"
+  Port: 24603
+Etcd:
+  Endpoints:
+  - "http://10.10.10.5:2379"
+  - "http://10.10.10.6:2379"
+  - "http://10.10.10.7:2379"
+  Timeout: 5
+  Retry: 3
+  HA: true
+LocalDir:
+  PollInterval: 2
+SoT:
+- Local:
+    ID: "vaquero-local"
+    Root: /dm
+Log:
+  Level: info
+  Location: stdout
+  LogType: text

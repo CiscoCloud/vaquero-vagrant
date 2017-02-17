@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vs-dep
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: vs-pod
+      labels:
+        app: vs-pod
+    spec:
+      containers:
+        - name: vs-pod
+          image: shippedrepos-docker-vaquero.bintray.io/vaquero/vaquero
+          args:
+            - "server"
+            - "--config"
+            - "/config/config.yaml"
+          env:
+            - name: VAQUERO_SHARED_SECRET
+              value: "shared"
+            - name: VAQUERO_SERVER_SECRET
+              value: "server"
+            - name: VAQUERO_SITE_ID
+              value: "test-site"
+            - name: VAQUERO_AGENT_ID
+              value: "test-agent"
+          ports:
+            - containerPort: 24601
+            - containerPort: 24603
+            - containerPort: 24604
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 24604
+            initialDelaySeconds: 5
+            periodSeconds: 1
+          volumeMounts:
+            - mountPath: /config
+              name: config
+            - mountPath: /secret
+              name: ssh
+            - mountPath: /dm
+              name: dm
+      volumes:
+        - name: dm
+          hostPath:
+            path: /vagrant/local
+        - name: config
+          configMap:
+            name: vs-config
+            items:
+            - key: vs-config.yaml
+              path: config.yaml
+        - name: ssh
+          secret:
+            secretName: ssh-key
+            items:
+            - key: server.pem
+              path: server.pem
+            - key: server.key
+              path: server.key
