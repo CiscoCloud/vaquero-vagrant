@@ -32,12 +32,12 @@ spec:
             - containerPort: 24601
             - containerPort: 24603
             - containerPort: 24604
-          # readinessProbe:
-          #   httpGet:
-          #     path: /ready
-          #     port: 24604
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 24604
+            initialDelaySeconds: 5
+            periodSeconds: 1
           volumeMounts:
             - mountPath: /config
               name: config
