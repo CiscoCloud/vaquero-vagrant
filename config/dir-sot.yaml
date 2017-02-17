@@ -11,6 +11,13 @@ ServerClient:
 SavePath: "/var/vaquero"
 LocalDir:
   PollInterval: 1
+Etcd:
+  Endpoints:
+  - "http://10.10.10.5:2379"
+  - "http://10.10.10.6:2379"
+  - "http://10.10.10.7:2379"
+  Timeout: 5
+  Retry: 3
 SoT:
 - Local:
     ID: vaquero-local

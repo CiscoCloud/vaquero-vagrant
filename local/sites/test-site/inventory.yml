@@ -37,22 +37,10 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:23
     ipv4: 10.10.10.23
-
-  - type: bmc
-    subnet: vagrant1
-    mac: 00:00:00:00:10:03
     bmc:
-        type: custom
-        container:
-          image: gemtest/ipmitool
-          pull: yes
-          commands:
-            - ipmitool -H 10.10.10.123 -I imb -U root -P secret power cycle
-          timeout: 60
-    identifier: imbhost
-    ipv4: 10.10.10.123
-    hostname: host1.imb.vaquero
-
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
 metadata:
     mstr: etcd3
     role: kube-master
@@ -142,14 +130,10 @@ interfaces:
     subnet: vagrant1
     mac: 00:00:00:00:00:41
     ipv4: 10.10.10.41
-  - type: bmc
-    subnet: vagrant1
-    mac: 00:00:00:00:10:41
     bmc:
-      type: ipmi
-      username: steve
-      password: adam
-    ipv4: 10.10.10.141
+      type: ssh
+      username: core
+      keypath: /vagrant/provision_files/id_rsa
 metadata:
     name: centos1
     ip: 10.10.10.41
