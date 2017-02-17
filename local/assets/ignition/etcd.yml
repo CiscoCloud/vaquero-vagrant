@@ -1,7 +1,7 @@
 ---
 systemd:
   units:
-    - name: setup.service
+    - name: checkpoint.service
       enable: true
       contents: |
         [Service]

@@ -17,7 +17,7 @@ coreos:
 
 
   units:
-    - name: setup.service
+    - name: checkpoint.service
       command: start
       content: |
         [Unit]
