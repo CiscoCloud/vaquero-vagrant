@@ -1,6 +1,5 @@
 #cloud-config
 coreos:
-
   update:
     group: stable
     reboot-strategy: off
@@ -15,6 +14,20 @@ coreos:
   {{ end }}
 
   units:
+    - name: checkpoint.service
+      command: start
+      content: |
+        [Unit]
+        Description=CoreOS (Re)Provision
+        Author=Vaquero
+
+        [Service]
+        ExecStart=/usr/bin/curl {{ Checkpoint }}
+        Restart=on-failure
+        RestartSec=5s
+        [Install]
+        WantedBy=multi-user.target
+
     - name: etcd2.service
       command: start
     - name: fleet.service

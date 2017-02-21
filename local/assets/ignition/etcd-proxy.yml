@@ -1,6 +1,15 @@
 ---
 systemd:
   units:
+    - name: checkpoint.service
+      enable: true
+      contents: |
+        [Service]
+        Restart=on-failure
+        RestartSec=5s
+        ExecStart=/usr/bin/curl -vvv {{ Checkpoint }}
+        [Install]
+        WantedBy=multi-user.target
     - name: etcd2.service
       enable: true
       dropins:
