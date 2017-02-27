@@ -18,12 +18,13 @@ validate:
       retry: 0
       timeout: 60
 
+
 before_shutdown:
       - image: busybox
         pull: yes
         command: /bin/ls
         args:
-          - la
+          - -la
           - /
         retry: 0
         timeout: 60

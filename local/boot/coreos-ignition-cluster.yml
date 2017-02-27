@@ -17,7 +17,7 @@ before_shutdown:
     pull: yes
     command: /bin/ls
     args:
-      - la
+      - -la
       - /
     retry: 0
     timeout: 60
