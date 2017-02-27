@@ -2,8 +2,8 @@
 ServerAPI:
   Addr: 10.10.10.5
   Port: 24601
-  PrivateKey: "/vaquero/secret/server.key"
-  PublicKey: "/vaquero/secret/server.pem"
+  PrivateKey: "/vagrant/secret/server.key"
+  PublicKey: "/vagrant/secret/server.pem"
 ServerClient:
   Addr: 10.10.10.5
   Port: 24601
@@ -11,18 +11,11 @@ ServerClient:
 SavePath: "/var/vaquero"
 LocalDir:
   PollInterval: 1
-Etcd:
-  Endpoints:
-  - "http://10.10.10.5:2379"
-  - "http://10.10.10.6:2379"
-  - "http://10.10.10.7:2379"
-  Timeout: 5
-  Retry: 3
 SoT:
 - Local:
     ID: vaquero-local
     Root: /vagrant/local
 Log:
-  Level: debug
+  Level: info
   Location: stdout
   Type: text
