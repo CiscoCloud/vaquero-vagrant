@@ -86,6 +86,8 @@ if [ $PXE_COUNT > 0 ]
             VBoxManage modifyvm $vmName --boot1 disk --boot2 net
 
             VBoxManage startvm $vmName --type headless;
+        else
+            echo "$vmName.vdi already exists, remove file to re-create. Skipping."
         fi
       done
 fi
