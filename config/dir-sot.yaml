@@ -8,7 +8,6 @@ ServerClient:
   Addr: 10.10.10.5
   Port: 24601
   InsecureSkipVerify: true
-SavePath: "/var/vaquero"
 LocalDir:
   PollInterval: 1
 

@@ -8,12 +8,18 @@ ServerClient:
   Addr: 10.10.10.5
   Port: 24601
   InsecureSkipVerify: true
-SavePath: "/var/vaquero/save"
 Gitter:
   Endpoint: "/postreceive"
   Timeout: 2
   Addr: 10.0.2.15
   Port: 24603
+Etcd:
+  Endpoints:
+  - "http://10.10.10.5:2379"
+  - "http://10.10.10.6:2379"
+  - "http://10.10.10.7:2379"
+  Timeout: 5
+  Retry: 3
 GitHook:
 - ID: vaquero-vagrant
   Token: <GIT_TOKEN>

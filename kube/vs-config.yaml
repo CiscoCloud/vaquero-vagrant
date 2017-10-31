@@ -6,7 +6,6 @@ ServerAPI:
   Port: 24601
   PrivateKey: "/secret/server.key"
   PublicKey: "/secret/server.pem"
-SavePath: "/var/vaquero"
 Gitter:
   Endpoint: "/postreceive"
   Timeout: 2
