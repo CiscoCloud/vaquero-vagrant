@@ -37,17 +37,8 @@ clearpart --all --drives=sda --initlabel
 # Create the bootloader in the MBR with drive sda being the drive to install it on
 bootloader --location=mbr --driveorder=sda
 
-# Create a 100MB /boot partition
-part /boot --fstype ext3 --size=100
-
-# Create a 5GB / partition
-part / --fstype ext3 --size=5000
-
-# Create a 2GB swap
-part swap --size=2000
-
-# Use the rest of the free space on disk to create the /home partition
-part /home --fstype ext3 --size=100 --grow
+# partitioning
+autopart --type=lvm
 
 # Install the Base and Core software packages, plus OpenSSH server & client
 # This is the bare minimum for a system to run (with remote access via SSH)
